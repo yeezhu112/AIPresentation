@@ -6,7 +6,7 @@ import '../styles/presentation.css';
 
 const Presentation: React.FC = () => {
   const [activeSection, setActiveSection] = useState('intro');
-  const sections = ['intro', 'ai-confusion', 'ai-spectrum', 'cognitive-architecture', 'future-trends', 'use-cases', 'roadmap', 'conclusion'];
+  const sections = ['intro', 'ai-confusion', 'ai-spectrum', 'cognitive-architecture', 'future-trends', 'use-cases','feature-map-1' ,'feature-map-2','feature-map-3','roadmap', 'conclusion'];
   
   // Section titles for navigation
   const sectionTitles: Record<string, string> = {
@@ -16,6 +16,9 @@ const Presentation: React.FC = () => {
     'cognitive-architecture': 'Cognitive Architecture',
     'future-trends': 'Future Trends',
     'use-cases': 'Use Cases',
+    'feature-map-1': 'Feature Map-Navigate',
+    'feature-map-2': 'Feature Map-Quick Follow',
+    'feature-map-3': 'Feature Map-Longer Term',
     'roadmap': 'Roadmap',
     'conclusion': 'Conclusion'
   };
@@ -66,7 +69,7 @@ const Presentation: React.FC = () => {
       <Section id="intro" className="gradient-background text-white" onVisibilityChange={handleSectionVisibilityChange}>
         <div className="container mx-auto px-6 py-16 md:px-12 relative">
           <div className="pop-in" ref={el => slideInRefs.current[0] = el}>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Understanding AI Agents</h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">Introduction to AI Agents and AIS</h1>
             <p className="text-xl md:text-2xl mb-12 max-w-3xl">What problems are we solving? A non-technical presentation</p>
             <div className="flex flex-col md:flex-row items-center">
               <div className="w-full md:w-1/2 mb-6 md:mb-0">
@@ -87,7 +90,11 @@ const Presentation: React.FC = () => {
                     </li>
                     <li className="flex items-center">
                       <i className="fas fa-check-circle text-orange-300 mr-3"></i>
-                      <span>Real-world use cases and solutions</span>
+                      <span>Real-world use cases</span>
+                    </li>
+                    <li className="flex items-center">
+                      <i className="fas fa-check-circle text-orange-300 mr-3"></i>
+                      <span>Our solutions</span>
                     </li>
                   </ul>
                 </div>
@@ -118,7 +125,7 @@ const Presentation: React.FC = () => {
           <div className="slide-frame">
             <div className="slide-in" ref={el => slideInRefs.current[1] = el}>
               <h2 className="text-3xl md:text-4xl font-bold mb-6 text-blue-950">The Confusing World of AI Terminology</h2>
-              <p className="text-lg mb-8">Have you ever found yourself confused when people talk about different AI technologies? You're not alone!</p>
+              <p className="text-xl italic mb-8">Have you ever found yourself confused when people talk about different AI technologies? You're not alone!</p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
                 <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
@@ -343,7 +350,7 @@ const Presentation: React.FC = () => {
                 <div className="timeline-item md:flex items-center">
                   <div className="md:w-1/2 mb-6 md:mb-0 md:pr-12 md:text-right">
                     <h3 className="text-xl font-bold mb-2 text-orange-300">Basic Understanding</h3>
-                    <p>Simple pattern recognition and predefined responses based on keywords.</p>
+                    <p>Non-LLM; simple pattern recognition and predefined responses based on keywords.</p>
                   </div>
                   <div className="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
                   <div className="md:w-1/2 md:pl-12">
@@ -357,7 +364,7 @@ const Presentation: React.FC = () => {
                 <div className="timeline-item md:flex items-center">
                   <div className="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
                     <div className="bg-white bg-opacity-10 p-4 rounded-lg">
-                      <p className="text-sm"><strong>Example:</strong> Google Search that understands your question, finds relevant information, and presents it in context.</p>
+                      <p className="text-sm"><strong>Example:</strong> LLM-powered smart search or RAG that understands your question, finds relevant information, and presents it in context.</p>
                     </div>
                   </div>
                   <div className="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
@@ -370,8 +377,8 @@ const Presentation: React.FC = () => {
                 {/* Item 3 */}
                 <div className="timeline-item md:flex items-center">
                   <div className="md:w-1/2 mb-6 md:mb-0 md:pr-12 md:text-right">
-                    <h3 className="text-xl font-bold mb-2 text-orange-300">Tool Use & Reasoning</h3>
-                    <p>Can use external tools, follow reasoning steps, and retain information across interactions.</p>
+                    <h3 className="text-xl font-bold mb-2 text-orange-300">Tool Use & Deep Thinking</h3>
+                    <p>Can use external tools, breakdown complex problems, follow reasoning steps, and retain information across interactions.</p>
                   </div>
                   <div className="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
                   <div className="md:w-1/2 md:pl-12">
@@ -523,82 +530,378 @@ const Presentation: React.FC = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </Section>
 
       {/* Section 6: Use Cases */}
       <Section id="use-cases" className="bg-gray-50" onVisibilityChange={handleSectionVisibilityChange}>
-        <div className="container mx-auto px-6 py-16 md:px-12">
-          <div className="slide-in" ref={el => slideInRefs.current[5] = el}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-950">AI Use Cases: From Theory to Practice</h2>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md mb-10">
-              <h3 className="text-2xl font-semibold mb-4 text-blue-800">Featured Use Case: Navigate</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="text-lg font-medium mb-3 text-blue-950">Data Access Control</h4>
-                  <p className="mb-4">How do we ensure AI agents can securely access the data they need while maintaining proper controls?</p>
-                  
-                  <div className="bg-gray-50 p-4 rounded-lg mb-4">
-                    <h5 className="font-medium mb-2">The Challenge:</h5>
-                    <ul className="space-y-2">
-                      <li className="flex items-start">
-                        <i className="fas fa-exclamation-circle text-orange-500 mt-1 mr-3"></i>
-                        <span>AI agents need access to various data sources to be effective</span>
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-exclamation-circle text-orange-500 mt-1 mr-3"></i>
-                        <span>Organizations must maintain security, compliance, and privacy</span>
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-exclamation-circle text-orange-500 mt-1 mr-3"></i>
-                        <span>Traditional access controls aren't designed for AI systems</span>
-                      </li>
-                    </ul>
+        <div className="container mx-auto px-4 py-12 md:px-8 relative">
+          <div className="slide-frame">
+            <div className="slide-in" ref={el => slideInRefs.current[5] = el}>
+              <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-950">AIS Use Cases: From Theory to Practice</h2>
+                <div className="bg-white p-6 rounded-lg shadow-md mb-10">
+                  <h3 className="text-2xl font-semibold mb-4 text-blue-800">Featured Use Case for Navigate</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                      <h4 className="text-lg font-medium mb-3 text-blue-950">Data Access Control</h4>
+                      <p className="mb-4">How do we ensure AI agents can securely access the data they need while maintaining proper controls?</p>
+                      
+                      <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                        <h5 className="font-medium mb-2">The Challenge:</h5>
+                        <ul className="space-y-2">
+                          <li className="flex items-start">
+                            <i className="fas fa-exclamation-circle text-orange-500 mt-1 mr-3"></i>
+                            <span>AI agents need access to various data sources to be effective</span>
+                          </li>
+                          <li className="flex items-start">
+                            <i className="fas fa-exclamation-circle text-orange-500 mt-1 mr-3"></i>
+                            <span>Organizations must maintain security, compliance, and privacy</span>
+                          </li>
+                          <li className="flex items-start">
+                            <i className="fas fa-exclamation-circle text-orange-500 mt-1 mr-3"></i>
+                            <span>Traditional access controls aren't designed for AI systems</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="text-lg font-medium mb-3 text-blue-950"> Expanded Real-World Example</h4>
+                      <p className="mb-4">Imagine a healthcare organization using AI agents to assist with patient care:</p>
+                      <div className="p-4 border border-dashed border-gray-300 rounded-lg">
+                        <div className="flex items-start mb-3">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white mr-3">
+                            <i className="fas fa-user-md"></i>
+                          </div>
+                          <div>
+                            <h5 className="font-medium">Doctor's AI Assistant</h5>
+                            <p className="text-sm text-gray-600">Needs access to patient records, medical histories, and treatment protocols</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-start mb-3">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white mr-3">
+                            <i className="fas fa-user"></i>
+                          </div>
+                          <div>
+                            <h5 className="font-medium">Patient's AI Assistant</h5>
+                            <p className="text-sm text-gray-600">Needs access to only their own medical data and general health information</p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-start">
+                          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white mr-3">
+                            <i className="fas fa-hospital"></i>
+                          </div>
+                          <div>
+                            <h5 className="font-medium">Hospital Operations AI</h5>
+                            <p className="text-sm text-gray-600">Needs access to anonymized patient data and operational systems</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
+        
+            </div>
+          </div>
+        </div>
+      </Section>
+
+          {/* Section 7: Feature Map-1*/}
+      <Section id="feature-map-1" className="bg-gray-50" onVisibilityChange={handleSectionVisibilityChange}>
+        <div className="container mx-auto px-4 py-12 md:px-8 relative">
+          <div className="slide-frame">
+
+          <div className="slide-in" ref={el => slideInRefs.current[6] = el}>
+            {/* <h3 className="text-2xl font-semibold mb-6 text-blue-800">Feature Map: for Navigate Featured Use Case</h3> */}
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">Feature Map: for Navigate Featured Use Case</h2>
+              
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 min-w-[768px]">
+                {/* Row 1 */}
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Connectivity</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>SailPoint to Agent</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent to data sources</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="far fa-circle text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent to Apps</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Agent to Agent</span>
+                    </li>
+                  </ul>
+                </div>
                 
-                <div>
-                  <h4 className="text-lg font-medium mb-3 text-blue-950">Real-World Example</h4>
-                  <p className="mb-4">Imagine a healthcare organization using AI agents to assist with patient care:</p>
-                  
-                  <div className="p-4 border border-dashed border-gray-300 rounded-lg">
-                    <div className="flex items-start mb-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white mr-3">
-                        <i className="fas fa-user-md"></i>
-                      </div>
-                      <div>
-                        <h5 className="font-medium">Doctor's AI Assistant</h5>
-                        <p className="text-sm text-gray-600">Needs access to patient records, medical histories, and treatment protocols</p>
-                      </div>
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Access Control</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Visibility</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-grey-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Control</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-grey-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Audit</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-grey-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Test & Certify</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Lifecycle Management</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent ID as machine ID</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent OAuth</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>True Agent Identity Profile</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="far fa-circle text-gray-500 mt-1 mr-2"></i>
+                      <span>Agent-specific Lifecycle state</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Multi-Agent Systems</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Agent-to-agent network</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Agent create agent</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">E2E identity graph</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">New Agent types</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-blue-800 bg-opacity-10 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold mb-4 text-blue-950">Key Components for the Solution</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
+                      <i className="fas fa-plug text-orange-500"></i>
                     </div>
-                    
-                    <div className="flex items-start mb-3">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white mr-3">
-                        <i className="fas fa-user"></i>
-                      </div>
-                      <div>
-                        <h5 className="font-medium">Patient's AI Assistant</h5>
-                        <p className="text-sm text-gray-600">Needs access to only their own medical data and general health information</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <div className="flex-shrink-0 w-10 h-10 rounded-full bg-blue-800 flex items-center justify-center text-white mr-3">
-                        <i className="fas fa-hospital"></i>
-                      </div>
-                      <div>
-                        <h5 className="font-medium">Hospital Operations AI</h5>
-                        <p className="text-sm text-gray-600">Needs access to anonymized patient data and operational systems</p>
-                      </div>
-                    </div>
+                    <h4 className="font-medium">Connectivity</h4>
                   </div>
+                  <p className="text-sm">Ensure SailPoint can securely communicate with agents and provide necessary policy context-SP connectivity; Ensure agents connect to target systems-MCP</p>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
+                      <i className="fas fa-shield-alt text-orange-500"></i>
+                    </div>
+                    <h4 className="font-medium">DAS</h4>
+                  </div>
+                  <p className="text-sm">Manage data access control</p>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
+                      <i className="fas fa-id-card text-orange-500"></i>
+                    </div>
+                    <h4 className="font-medium">Identity + MIS</h4>
+                  </div>
+                  <p className="text-sm">Create basis agent identity as a special branch of machine identity.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </Section>
+
+                {/* Section 8: Feature Map-2*/}
+      <Section id="feature-map-2" className="bg-gray-50" onVisibilityChange={handleSectionVisibilityChange}>
+      <div className="container mx-auto px-4 py-12 md:px-8 relative">
+      <div className="slide-frame">
+          <div className="slide-in" ref={el => slideInRefs.current[7] = el}>
+            
+            {/* <h3 className="text-2xl font-semibold mb-6 text-blue-800">Feature Map: Navigate Quick Follow</h3> */}
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">Feature Map: Navigate Quick Follow</h2>
+            
+            <div className="overflow-x-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 min-w-[768px]">
+                {/* Row 1 */}
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Connectivity</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>SailPoint to Agent</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent to data sources</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="far fa-circle text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent to Apps</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="far fa-circle text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent to Agent</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Access Control</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Visibility</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Control</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>                      
+                      <span>Audit</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-grey-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Test & Certify</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-800">Lifecycle Management</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent ID as machine ID</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent OAuth</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>True Agent Identity Profile</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="far fa-circle text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent-specific Lifecycle state</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="feature-card bg-white p-4 rounded-lg shadow-md">
+                  <h4 className="font-medium mb-2 text-blue-600 italic">Multi-Agent Systems</h4>
+                  <ul className="text-sm space-y-2">
+                    <li className="flex items-start">
+                      <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
+                      <span>Agent-to-agent network</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">Agent create agent</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">E2E identity graph</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-times text-gray-300 mt-1 mr-2"></i>
+                      <span className="text-gray-300 italic">New Agent types</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
             
-            <h3 className="text-2xl font-semibold mb-6 text-blue-800">Feature Map: Navigate – Use Case 1</h3>
+            <div className="bg-blue-800 bg-opacity-10 p-6 rounded-lg">
+              <h3 className="text-xl font-semibold mb-4 text-blue-950">Key Components for the Solution</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
+                      <i className="fas fa-plug text-orange-500"></i>
+                    </div>
+                    <h4 className="font-medium">Connectivity</h4>
+                  </div>
+                  <p className="text-sm">Enable agent to agent connections.</p>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
+                      <i className="fas fa-shield-alt text-orange-500"></i>
+                    </div>
+                    <h4 className="font-medium">DAS + Audit</h4>
+                  </div>
+                  <p className="text-sm">Manage data access security, manage audit trails.</p>
+                </div>
+                
+                <div className="bg-white p-4 rounded-lg shadow-sm">
+                  <div className="flex items-center mb-3">
+                    <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
+                      <i className="fas fa-id-card text-orange-500"></i>
+                    </div>
+                    <h4 className="font-medium">Identity + MIS</h4>
+                  </div>
+                  <p className="text-sm">Complete agent identity profiles; deal with AI specific attributes.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      </Section>
+                  {/* Section 9 Feature Map-3*/}
+      <Section id="feature-map-3" className="bg-gray-50" onVisibilityChange={handleSectionVisibilityChange}>
+      <div className="container mx-auto px-4 py-12 md:px-8 relative">
+      <div className="slide-frame">
+          <div className="slide-in" ref={el => slideInRefs.current[8] = el}>
+
+            {/* <h3 className="text-2xl font-semibold mb-6 text-blue-800">Feature Map: Future Roadmap</h3> */}
+            <h2 className="text-3xl md:text-4xl font-bold mb-8">Feature Map: Future Roadmap</h2>
             
             <div className="overflow-x-auto">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 min-w-[768px]">
@@ -642,7 +945,7 @@ const Presentation: React.FC = () => {
                     </li>
                     <li className="flex items-start">
                       <i className="fas fa-check text-orange-500 mt-1 mr-2"></i>
-                      <span>Certify</span>
+                      <span>Test & Certify</span>
                     </li>
                   </ul>
                 </div>
@@ -702,9 +1005,9 @@ const Presentation: React.FC = () => {
                     <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
                       <i className="fas fa-plug text-orange-500"></i>
                     </div>
-                    <h4 className="font-medium">Connectivity Expert</h4>
+                    <h4 className="font-medium">Connectivity</h4>
                   </div>
-                  <p className="text-sm">Ensuring agents can securely connect to necessary data sources and applications.</p>
+                  <p className="text-sm">Ensure Sailpoint can obtain full access map.</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded-lg shadow-sm">
@@ -712,9 +1015,9 @@ const Presentation: React.FC = () => {
                     <div className="w-10 h-10 rounded-full bg-orange-500 bg-opacity-20 flex items-center justify-center mr-3">
                       <i className="fas fa-shield-alt text-orange-500"></i>
                     </div>
-                    <h4 className="font-medium">DAS + Audit Expert</h4>
+                    <h4 className="font-medium">DAS + Policy Intelligence</h4>
                   </div>
-                  <p className="text-sm">Managing data access security and maintaining comprehensive audit trails.</p>
+                  <p className="text-sm">Manage, test and certify data access security and maintaining comprehensive audit trails.</p>
                 </div>
                 
                 <div className="bg-white p-4 rounded-lg shadow-sm">
@@ -724,26 +1027,37 @@ const Presentation: React.FC = () => {
                     </div>
                     <h4 className="font-medium">Identity + MIS Expert</h4>
                   </div>
-                  <p className="text-sm">Creating robust identity profiles for AI agents and managing identity security.</p>
+                  <p className="text-sm">Create robust identity profiles for AI agents and managing identity security.</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        </div>
       </Section>
 
-      {/* Section 7: Roadmap */}
+      {/* Section 10: Roadmap */}
       <Section id="roadmap" className="gradient-background text-white" onVisibilityChange={handleSectionVisibilityChange}>
         <div className="container mx-auto px-6 py-16 md:px-12">
-          <div className="slide-in" ref={el => slideInRefs.current[6] = el}>
+          <div className="slide-in" ref={el => slideInRefs.current[9] = el}>
             <h2 className="text-3xl md:text-4xl font-bold mb-8">The Future Roadmap</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">
               <div>
-                <h3 className="text-2xl font-semibold mb-6">Near-Term: Agent Identity Security</h3>
-                <p className="mb-6">Our immediate focus is on building a robust foundation for AI agent identity and access control:</p>
+                <h3 className="text-2xl font-semibold mb-6">Near-Term: Agent Identity-based, policy-driven control</h3>
+                <p className="mb-6">Our immediate focus is on building a robust foundation for AI agent identity-based access control:</p>
                 
                 <ul className="space-y-4">
+                <li className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
+                      <i className="fas fa-search text-orange-300"></i>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-1">Visibility and Control</h4>
+                      <p className="text-sm">Knowing which agents have access to what resources</p>
+                    </div>
+                  </li>
+
                   <li className="flex items-start">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
                       <i className="fas fa-fingerprint text-orange-300"></i>
@@ -762,18 +1076,8 @@ const Presentation: React.FC = () => {
                       <h4 className="font-medium mb-1">OAuth for Agents</h4>
                       <p className="text-sm">Secure authentication and authorization mechanisms</p>
                     </div>
-                  </li>
-                  
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
-                      <i className="fas fa-search text-orange-300"></i>
-                    </div>
-                    <div>
-                      <h4 className="font-medium mb-1">Visibility and Control</h4>
-                      <p className="text-sm">Knowing which agents have access to what resources</p>
-                    </div>
-                  </li>
-                  
+                  </li>                  
+              
                   <li className="flex items-start">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
                       <i className="fas fa-clipboard-list text-orange-300"></i>
@@ -803,16 +1107,6 @@ const Presentation: React.FC = () => {
                   
                   <li className="flex items-start">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
-                      <i className="fas fa-store text-orange-300"></i>
-                    </div>
-                    <div>
-                      <h4 className="font-medium mb-1">Agent Marketplace</h4>
-                      <p className="text-sm">Ecosystem for discovering and deploying specialized agents</p>
-                    </div>
-                  </li>
-                  
-                  <li className="flex items-start">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
                       <i className="fas fa-sitemap text-orange-300"></i>
                     </div>
                     <div>
@@ -830,6 +1124,17 @@ const Presentation: React.FC = () => {
                       <p className="text-sm">Specialized agents that monitor and protect other agents</p>
                     </div>
                   </li>
+                
+                  <li className="flex items-start">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-white bg-opacity-20 flex items-center justify-center mr-3 mt-1">
+                      <i className="fas fa-store text-orange-300"></i>
+                    </div>
+                    <div>
+                      <h4 className="font-medium mb-1">Agent Marketplace Integration</h4>
+                      <p className="text-sm">Ecosystem for discovering and deploying specialized agents</p>
+                    </div>
+                  </li>
+                  
                 </ul>
               </div>
             </div>
@@ -850,12 +1155,12 @@ const Presentation: React.FC = () => {
                 </div>
                 
                 <div className="p-4 bg-white bg-opacity-5 rounded-lg">
-                  <h4 className="font-medium mb-2">AI Agent Extensions</h4>
+                  <h4 className="font-medium mb-2">AI Agent Orchestration</h4>
                   <p className="text-sm">Enhanced capabilities for existing AI frameworks</p>
                 </div>
                 
                 <div className="p-4 bg-white bg-opacity-5 rounded-lg">
-                  <h4 className="font-medium mb-2">Global Context</h4>
+                  <h4 className="font-medium mb-2">Policy/Compliance Intelligence</h4>
                   <p className="text-sm">Orchestration across multiple environments</p>
                 </div>
               </div>
@@ -864,10 +1169,10 @@ const Presentation: React.FC = () => {
         </div>
       </Section>
 
-      {/* Section 8: Conclusion */}
+      {/* Section 11: Conclusion */}
       <Section id="conclusion" className="bg-white" onVisibilityChange={handleSectionVisibilityChange}>
         <div className="container mx-auto px-6 py-16 md:px-12">
-          <div className="slide-in" ref={el => slideInRefs.current[7] = el}>
+          <div className="slide-in" ref={el => slideInRefs.current[10] = el}>
             <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-950">Key Takeaways</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
