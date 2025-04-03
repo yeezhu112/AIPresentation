@@ -1,0 +1,95 @@
+/* Base styles for the presentation */
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Navigation dots */
+.nav-dot {
+  transition: all 0.3s;
+}
+
+.nav-dot.active {
+  transform: scale(1.5);
+  @apply bg-orange-500;
+}
+
+/* Gradient background */
+.gradient-background {
+  @apply bg-gradient-to-br from-blue-950 to-blue-800;
+}
+
+/* Animation classes */
+.slide-in {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s, transform 0.8s;
+}
+
+.slide-in.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Interactive elements */
+.spectrum-item {
+  transition: all 0.3s ease;
+}
+
+.spectrum-item:hover {
+  transform: translateY(-10px);
+  @apply shadow-lg;
+}
+
+.timeline-dot {
+  transition: all 0.3s ease;
+}
+
+.timeline-item:hover .timeline-dot {
+  transform: scale(1.5);
+  @apply bg-orange-500;
+}
+
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  @apply shadow-lg;
+}
+
+.grid-item {
+  transition: all 0.3s ease;
+}
+
+.grid-item:hover {
+  @apply bg-orange-50;
+}
+
+/* Media queries for mobile */
+@media (max-width: 640px) {
+  .mobile-scroll {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    display: flex;
+  }
+  
+  .mobile-scroll > div {
+    min-width: 85%;
+    scroll-snap-align: center;
+    margin-right: 1rem;
+  }
+}
