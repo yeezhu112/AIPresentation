@@ -7,6 +7,20 @@ import '../styles/presentation.css';
 const Presentation: React.FC = () => {
   const [activeSection, setActiveSection] = useState('intro');
   const sections = ['intro', 'ai-confusion', 'ai-spectrum', 'cognitive-architecture', 'future-trends', 'use-cases', 'roadmap', 'conclusion'];
+  
+  // Section titles for navigation
+  const sectionTitles: Record<string, string> = {
+    'intro': 'Introduction',
+    'ai-confusion': 'AI Terminology',
+    'ai-spectrum': 'AI Technology Spectrum',
+    'cognitive-architecture': 'Cognitive Architecture',
+    'future-trends': 'Future Trends',
+    'use-cases': 'Use Cases',
+    'roadmap': 'Roadmap',
+    'conclusion': 'Conclusion'
+  };
+  
+  // Refs for animation elements
   const slideInRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   const handleSectionVisibilityChange = (id: string, isVisible: boolean) => {
@@ -16,6 +30,7 @@ const Presentation: React.FC = () => {
   };
 
   useEffect(() => {
+    // Animation observer
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -40,36 +55,42 @@ const Presentation: React.FC = () => {
 
   return (
     <div className="font-sans text-gray-800 overflow-x-hidden bg-white">
-      <NavigationDots sections={sections} activeSection={activeSection} />
+      <NavigationDots 
+        sections={sections} 
+        activeSection={activeSection} 
+        sectionTitles={sectionTitles} 
+      />
       <ProgressBar />
 
       {/* Section 1: Introduction */}
       <Section id="intro" className="gradient-background text-white" onVisibilityChange={handleSectionVisibilityChange}>
         <div className="container mx-auto px-6 py-16 md:px-12 relative">
-          <div className="slide-in" ref={el => slideInRefs.current[0] = el}>
+          <div className="pop-in" ref={el => slideInRefs.current[0] = el}>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Understanding AI Agents</h1>
             <p className="text-xl md:text-2xl mb-12 max-w-3xl">What problems are we solving? A non-technical presentation</p>
             <div className="flex flex-col md:flex-row items-center">
               <div className="w-full md:w-1/2 mb-6 md:mb-0">
-                <p className="text-lg mb-4">In this presentation we'll explore:</p>
-                <ul className="space-y-3">
-                  <li className="flex items-center">
-                    <i className="fas fa-check-circle text-orange-300 mr-3"></i>
-                    <span>The confusion around AI terminology</span>
-                  </li>
-                  <li className="flex items-center">
-                    <i className="fas fa-check-circle text-orange-300 mr-3"></i>
-                    <span>The spectrum of AI technologies</span>
-                  </li>
-                  <li className="flex items-center">
-                    <i className="fas fa-check-circle text-orange-300 mr-3"></i>
-                    <span>The evolution toward AI agents</span>
-                  </li>
-                  <li className="flex items-center">
-                    <i className="fas fa-check-circle text-orange-300 mr-3"></i>
-                    <span>Real-world use cases and solutions</span>
-                  </li>
-                </ul>
+                <div className="bg-white bg-opacity-10 rounded-lg p-6 backdrop-blur-sm">
+                  <p className="text-lg mb-4">In this presentation we'll explore:</p>
+                  <ul className="space-y-3">
+                    <li className="flex items-center">
+                      <i className="fas fa-check-circle text-orange-300 mr-3"></i>
+                      <span>The confusion around AI terminology</span>
+                    </li>
+                    <li className="flex items-center">
+                      <i className="fas fa-check-circle text-orange-300 mr-3"></i>
+                      <span>The spectrum of AI technologies</span>
+                    </li>
+                    <li className="flex items-center">
+                      <i className="fas fa-check-circle text-orange-300 mr-3"></i>
+                      <span>The evolution toward AI agents</span>
+                    </li>
+                    <li className="flex items-center">
+                      <i className="fas fa-check-circle text-orange-300 mr-3"></i>
+                      <span>Real-world use cases and solutions</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div className="w-full md:w-1/2 flex justify-center">
                 <div className="relative w-64 h-64 md:w-80 md:h-80">
@@ -83,7 +104,8 @@ const Presentation: React.FC = () => {
             </div>
           </div>
           <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <a href="#ai-confusion" className="text-white opacity-80 hover:opacity-100">
+            <a href="#ai-confusion" className="text-white opacity-80 hover:opacity-100 flex flex-col items-center">
+              <span className="mb-2 text-sm font-medium">Scroll Down</span>
               <i className="fas fa-chevron-down text-xl"></i>
             </a>
           </div>
@@ -91,189 +113,213 @@ const Presentation: React.FC = () => {
       </Section>
 
       {/* Section 2: AI Terminology Confusion */}
-      <Section id="ai-confusion" className="bg-white" onVisibilityChange={handleSectionVisibilityChange}>
-        <div className="container mx-auto px-6 py-16 md:px-12">
-          <div className="slide-in" ref={el => slideInRefs.current[1] = el}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-950">The Confusing World of AI Terminology</h2>
-            <p className="text-lg mb-10">Have you ever found yourself confused when people talk about:</p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md grid-item">
-                <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
-                  <i className="fas fa-comments mr-3 text-orange-500"></i>
-                  AI Chatbots
-                </h3>
-                <p>Communication-focused AI that interacts through text or voice conversations.</p>
-                <p className="mt-2 text-sm text-gray-600 italic">Example: ChatGPT, Customer Service Bots</p>
+      <Section id="ai-confusion" className="bg-gray-50" onVisibilityChange={handleSectionVisibilityChange}>
+        <div className="container mx-auto px-4 py-12 md:px-8 relative">
+          <div className="slide-frame">
+            <div className="slide-in" ref={el => slideInRefs.current[1] = el}>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-blue-950">The Confusing World of AI Terminology</h2>
+              <p className="text-lg mb-8">Have you ever found yourself confused when people talk about different AI technologies? You're not alone!</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
+                    <i className="fas fa-comments mr-3 text-orange-500"></i>
+                    AI Chatbots
+                  </h3>
+                  <p>Communication-focused AI that interacts through text or voice conversations.</p>
+                  <p className="mt-2 text-sm text-gray-600 italic">Example: ChatGPT, Customer Service Bots</p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
+                    <i className="fas fa-hand-holding-heart mr-3 text-orange-500"></i>
+                    AI Assistants
+                  </h3>
+                  <p>Helpers that provide information and perform simple tasks on command.</p>
+                  <p className="mt-2 text-sm text-gray-600 italic">Example: Siri, Alexa, Google Assistant</p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
+                    <i className="fas fa-user-astronaut mr-3 text-orange-500"></i>
+                    AI Copilots
+                  </h3>
+                  <p>Collaborative tools that work alongside humans to enhance productivity.</p>
+                  <p className="mt-2 text-sm text-gray-600 italic">Example: GitHub Copilot, Microsoft 365 Copilot</p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
+                    <i className="fas fa-robot mr-3 text-orange-500"></i>
+                    AI Agents
+                  </h3>
+                  <p>Semi-autonomous systems that can take actions based on goals and reasoning.</p>
+                  <p className="mt-2 text-sm text-gray-600 italic">Example: AutoGPT, BabyAGI</p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
+                    <i className="fas fa-cogs mr-3 text-orange-500"></i>
+                    Autonomous Agents
+                  </h3>
+                  <p>Systems that can operate independently with minimal human supervision.</p>
+                  <p className="mt-2 text-sm text-gray-600 italic">Example: Self-driving vehicles, Trading bots</p>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-md grid-item border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
+                    <i className="fas fa-sitemap mr-3 text-orange-500"></i>
+                    Agentic Workflows
+                  </h3>
+                  <p>Systems where multiple AI components work together to accomplish complex goals.</p>
+                  <p className="mt-2 text-sm text-gray-600 italic">Example: Enterprise automation pipelines</p>
+                </div>
               </div>
               
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md grid-item">
-                <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
-                  <i className="fas fa-hand-holding-heart mr-3 text-orange-500"></i>
-                  AI Assistants
-                </h3>
-                <p>Helpers that provide information and perform simple tasks on command.</p>
-                <p className="mt-2 text-sm text-gray-600 italic">Example: Siri, Alexa, Google Assistant</p>
+              <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 shadow-md">
+                <h3 className="text-xl font-semibold mb-3 text-blue-950">Key Insight</h3>
+                <p className="text-lg mb-4">These aren't technical terms with precise definitions! They often describe:</p>
+                <ul className="mt-3 space-y-3">
+                  <li className="flex items-start">
+                    <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
+                    <span><strong>Communication style</strong> (chatbot = conversation-based)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
+                    <span><strong>Relationship to humans</strong> (assistant vs. autonomous agent)</span>
+                  </li>
+                  <li className="flex items-start">
+                    <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
+                    <span><strong>Level of independence</strong> (copilot vs. autonomous agent)</span>
+                  </li>
+                </ul>
+                <p className="mt-4 text-blue-800 font-medium">Understanding the purpose and functionality matters more than the label!</p>
               </div>
-              
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md grid-item">
-                <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
-                  <i className="fas fa-user-astronaut mr-3 text-orange-500"></i>
-                  AI Copilots
-                </h3>
-                <p>Collaborative tools that work alongside humans to enhance productivity.</p>
-                <p className="mt-2 text-sm text-gray-600 italic">Example: GitHub Copilot, Microsoft 365 Copilot</p>
-              </div>
-              
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md grid-item">
-                <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
-                  <i className="fas fa-robot mr-3 text-orange-500"></i>
-                  AI Agents
-                </h3>
-                <p>Semi-autonomous systems that can take actions based on goals and reasoning.</p>
-                <p className="mt-2 text-sm text-gray-600 italic">Example: AutoGPT, BabyAGI</p>
-              </div>
-              
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md grid-item">
-                <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
-                  <i className="fas fa-cogs mr-3 text-orange-500"></i>
-                  Autonomous Agents
-                </h3>
-                <p>Systems that can operate independently with minimal human supervision.</p>
-                <p className="mt-2 text-sm text-gray-600 italic">Example: Self-driving vehicles, Trading bots</p>
-              </div>
-              
-              <div className="bg-gray-50 p-6 rounded-lg shadow-md grid-item">
-                <h3 className="text-xl font-semibold mb-3 text-blue-800 flex items-center">
-                  <i className="fas fa-sitemap mr-3 text-orange-500"></i>
-                  Agentic Workflows
-                </h3>
-                <p>Systems where multiple AI components work together to accomplish complex goals.</p>
-                <p className="mt-2 text-sm text-gray-600 italic">Example: Enterprise automation pipelines</p>
-              </div>
-            </div>
-            
-            <div className="bg-blue-800 bg-opacity-10 p-6 rounded-lg">
-              <h3 className="text-xl font-semibold mb-3 text-blue-950">Key Insight</h3>
-              <p className="text-lg">These aren't technical terms with precise definitions! They often describe:</p>
-              <ul className="mt-3 space-y-2">
-                <li className="flex items-start">
-                  <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
-                  <span><strong>Communication style</strong> (chatbot = conversation-based)</span>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
-                  <span><strong>Relationship to humans</strong> (assistant vs. autonomous agent)</span>
-                </li>
-                <li className="flex items-start">
-                  <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
-                  <span><strong>Level of independence</strong> (copilot vs. autonomous agent)</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
       </Section>
 
       {/* Section 3: AI Technology Spectrum */}
-      <Section id="ai-spectrum" className="bg-gray-50" onVisibilityChange={handleSectionVisibilityChange}>
-        <div className="container mx-auto px-6 py-16 md:px-12">
-          <div className="slide-in" ref={el => slideInRefs.current[2] = el}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-blue-950">The AI Technology Spectrum</h2>
-            <p className="text-lg mb-8">Rather than getting caught up in terminology, let's understand how AI technologies exist on a spectrum from simple to complex:</p>
-            
-            <div className="overflow-x-auto">
-              <div className="mobile-scroll md:grid md:grid-cols-6 gap-4 mb-10">
-                <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-20 flex items-center justify-center mb-4">
-                    <i className="fas fa-comment-dots text-2xl text-blue-800"></i>
+      <Section id="ai-spectrum" className="bg-blue-50" onVisibilityChange={handleSectionVisibilityChange}>
+        <div className="container mx-auto px-4 py-12 md:px-8 relative">
+          <div className="slide-frame">
+            <div className="fade-in-right" ref={el => slideInRefs.current[2] = el}>
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-blue-950">The AI Technology Spectrum</h2>
+              <p className="text-lg mb-6">Rather than getting caught up in terminology, let's understand how AI technologies exist on a spectrum from simple to complex:</p>
+              
+              <div className="overflow-x-auto py-4">
+                <div className="mobile-scroll md:grid md:grid-cols-6 gap-4 mb-8">
+                  <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
+                    <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                      <i className="fas fa-comment-dots text-2xl text-blue-800"></i>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">Chatbots</h3>
+                    <p className="text-sm">Simple conversational interfaces focused on specific tasks</p>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Chatbots</h3>
-                  <p className="text-sm">Simple conversational interfaces focused on specific tasks</p>
-                </div>
-                
-                <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-20 flex items-center justify-center mb-4">
-                    <i className="fas fa-database text-2xl text-blue-800"></i>
+                  
+                  <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
+                    <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                      <i className="fas fa-database text-2xl text-blue-800"></i>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">Knowledge Base</h3>
+                    <p className="text-sm">Organized information collections for reference and retrieval</p>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Knowledge Base</h3>
-                  <p className="text-sm">Organized information collections for reference and retrieval</p>
-                </div>
-                
-                <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-20 flex items-center justify-center mb-4">
-                    <i className="fas fa-search text-2xl text-blue-800"></i>
+                  
+                  <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
+                    <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                      <i className="fas fa-search text-2xl text-blue-800"></i>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">RAG Systems</h3>
+                    <p className="text-sm">Retrieval-Augmented Generation combining search with AI responses</p>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">RAG Systems</h3>
-                  <p className="text-sm">Retrieval-Augmented Generation combining search with AI responses</p>
-                </div>
-                
-                <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-20 flex items-center justify-center mb-4">
-                    <i className="fas fa-magic text-2xl text-blue-800"></i>
+                  
+                  <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
+                    <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                      <i className="fas fa-magic text-2xl text-blue-800"></i>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">AI Assistants</h3>
+                    <p className="text-sm">Helpful AI systems that respond to queries and commands</p>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">AI Assistants</h3>
-                  <p className="text-sm">Helpful AI systems that respond to queries and commands</p>
-                </div>
-                
-                <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-20 flex items-center justify-center mb-4">
-                    <i className="fas fa-user-astronaut text-2xl text-blue-800"></i>
+                  
+                  <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
+                    <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                      <i className="fas fa-user-astronaut text-2xl text-blue-800"></i>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">Copilots</h3>
+                    <p className="text-sm">AI systems that work alongside humans to enhance capabilities</p>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">Copilots</h3>
-                  <p className="text-sm">AI systems that work alongside humans to enhance capabilities</p>
-                </div>
-                
-                <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center">
-                  <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-20 flex items-center justify-center mb-4">
-                    <i className="fas fa-robot text-2xl text-blue-800"></i>
+                  
+                  <div className="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
+                    <div className="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                      <i className="fas fa-robot text-2xl text-blue-800"></i>
+                    </div>
+                    <h3 className="font-semibold text-lg mb-2">AI Agents</h3>
+                    <p className="text-sm">Systems that can make decisions and take actions toward goals</p>
                   </div>
-                  <h3 className="font-semibold text-lg mb-2">AI Agents</h3>
-                  <p className="text-sm">Systems that can make decisions and take actions toward goals</p>
                 </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-center mb-8">
-              <div className="h-2 w-full bg-gradient-to-r from-blue-800 to-orange-500 rounded-full"></div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4 text-blue-800">Key Observations</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                    <span>Each technology serves different purposes and solves different problems</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                    <span>Technologies often build upon each other's capabilities</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
-                    <span>Understanding commonality is more important than the delineation</span>
-                  </li>
-                </ul>
               </div>
               
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-semibold mb-4 text-blue-800">Real-World Example</h3>
-                <p className="mb-4">Consider a smart assistant like Amazon Alexa:</p>
-                <ul className="space-y-2">
-                  <li className="flex items-start">
-                    <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
-                    <span>It's a <span className="font-semibold">chatbot</span> when you have a conversation with it</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
-                    <span>It's an <span className="font-semibold">assistant</span> when it answers questions</span>
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
-                    <span>It's an <span className="font-semibold">agent</span> when it orders products or controls your smart home</span>
-                  </li>
-                </ul>
+              <div className="flex items-center justify-center mb-8">
+                <div className="relative w-full">
+                  <div className="h-3 w-full bg-gradient-to-r from-blue-800 to-orange-500 rounded-full"></div>
+                  <div className="absolute -top-2 left-0 transform -translate-x-1/2">
+                    <div className="flex flex-col items-center">
+                      <div className="w-6 h-6 rounded-full bg-blue-800 border-2 border-white shadow-md"></div>
+                      <span className="text-xs font-medium mt-1">Simple</span>
+                    </div>
+                  </div>
+                  <div className="absolute -top-2 right-0 transform translate-x-1/2">
+                    <div className="flex flex-col items-center">
+                      <div className="w-6 h-6 rounded-full bg-orange-500 border-2 border-white shadow-md"></div>
+                      <span className="text-xs font-medium mt-1">Complex</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-4 text-blue-800">Key Observations</h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                      <span>Each technology serves different purposes and solves different problems</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                      <span>Technologies often build upon each other's capabilities</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                      <span>Understanding commonality is more important than the precise definitions</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-check-circle text-orange-500 mt-1 mr-3"></i>
+                      <span>As we move right on the spectrum, autonomy and capabilities increase</span>
+                    </li>
+                  </ul>
+                </div>
+                
+                <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
+                  <h3 className="text-xl font-semibold mb-4 text-blue-800">Real-World Example</h3>
+                  <p className="mb-4">Consider a smart assistant like Amazon Alexa:</p>
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
+                      <span>It's a <span className="font-semibold">chatbot</span> when you have a conversation with it</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
+                      <span>It's an <span className="font-semibold">assistant</span> when it answers questions or gives recommendations</span>
+                    </li>
+                    <li className="flex items-start">
+                      <i className="fas fa-arrow-right text-orange-500 mt-1 mr-3"></i>
+                      <span>It's an <span className="font-semibold">agent</span> when it orders products or controls your smart home</span>
+                    </li>
+                  </ul>
+                  <p className="mt-4 text-blue-800 italic">The same technology can play different roles depending on the task and context!</p>
+                </div>
               </div>
             </div>
           </div>
