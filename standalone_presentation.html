@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+  <title>Understanding AI Agents | A Non-Technical Presentation</title>
+  <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      color: #1f2937;
+      background-color: white;
+    }
+    
+    section {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      border-bottom: 5px solid rgba(30, 64, 175, 0.3);
+      box-sizing: border-box;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    
+    p {
+      line-height: 1.5;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    ul {
+      list-style-type: none;
+    }
+    
+    /* Typography */
+    .text-xs { font-size: 0.75rem; }
+    .text-sm { font-size: 0.875rem; }
+    .text-lg { font-size: 1.125rem; }
+    .text-xl { font-size: 1.25rem; }
+    .text-2xl { font-size: 1.5rem; }
+    .text-3xl { font-size: 1.875rem; }
+    .text-4xl { font-size: 2.25rem; }
+    .text-5xl { font-size: 3rem; }
+    .text-6xl { font-size: 3.75rem; }
+    
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    
+    .italic { font-style: italic; }
+    
+    /* Layout utilities */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+    
+    .relative { position: relative; }
+    .absolute { position: absolute; }
+    .fixed { position: fixed; }
+    
+    .flex { display: flex; }
+    .grid { display: grid; }
+    .hidden { display: none; }
+    
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-center { justify-content: center; }
+    
+    .w-full { width: 100%; }
+    .h-full { height: 100%; }
+    
+    .space-y-2 > * + * { margin-top: 0.5rem; }
+    .space-y-3 > * + * { margin-top: 0.75rem; }
+    .space-y-4 > * + * { margin-top: 1rem; }
+    .space-y-5 > * + * { margin-top: 1.25rem; }
+    .space-y-6 > * + * { margin-top: 1.5rem; }
+    
+    .mb-1 { margin-bottom: 0.25rem; }
+    .mb-2 { margin-bottom: 0.5rem; }
+    .mb-3 { margin-bottom: 0.75rem; }
+    .mb-4 { margin-bottom: 1rem; }
+    .mb-6 { margin-bottom: 1.5rem; }
+    .mb-8 { margin-bottom: 2rem; }
+    .mb-10 { margin-bottom: 2.5rem; }
+    .mb-12 { margin-bottom: 3rem; }
+    
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-3 { margin-top: 0.75rem; }
+    .mt-4 { margin-top: 1rem; }
+    
+    .mr-1 { margin-right: 0.25rem; }
+    .mr-2 { margin-right: 0.5rem; }
+    .mr-3 { margin-right: 0.75rem; }
+    .mr-4 { margin-right: 1rem; }
+    
+    .ml-1 { margin-left: 0.25rem; }
+    .ml-2 { margin-left: 0.5rem; }
+    .ml-3 { margin-left: 0.75rem; }
+    .ml-4 { margin-left: 1rem; }
+    
+    .px-1 { padding-left: 0.25rem; padding-right: 0.25rem; }
+    .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+    .px-4 { padding-left: 1rem; padding-right: 1rem; }
+    .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .px-8 { padding-left: 2rem; padding-right: 2rem; }
+    
+    .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+    .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+    .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+    .py-6 { padding-top: 1.5rem; padding-bottom: 1.5rem; }
+    .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+    .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+    .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+    
+    .p-4 { padding: 1rem; }
+    .p-5 { padding: 1.25rem; }
+    .p-6 { padding: 1.5rem; }
+    
+    /* Colors */
+    .text-white { color: #ffffff; }
+    .text-gray-600 { color: #4b5563; }
+    .text-gray-800 { color: #1f2937; }
+    .text-blue-800 { color: #1e40af; }
+    .text-blue-950 { color: #172554; }
+    .text-orange-300 { color: #fdba74; }
+    .text-orange-500 { color: #f97316; }
+    
+    .bg-white { background-color: #ffffff; }
+    .bg-gray-50 { background-color: #f9fafb; }
+    .bg-gray-100 { background-color: #f3f4f6; }
+    .bg-gray-200 { background-color: #e5e7eb; }
+    .bg-blue-50 { background-color: #eff6ff; }
+    .bg-blue-800 { background-color: #1e40af; }
+    .bg-blue-900 { background-color: #1e3a8a; }
+    .bg-orange-500 { background-color: #f97316; }
+    
+    .border { border-width: 1px; border-style: solid; }
+    .border-gray-100 { border-color: #f3f4f6; }
+    .border-l-4 { border-left-width: 4px; }
+    .border-blue-500 { border-color: #3b82f6; }
+    
+    /* Utilities */
+    .rounded-full { border-radius: 9999px; }
+    .rounded-lg { border-radius: 0.5rem; }
+    .rounded { border-radius: 0.25rem; }
+    
+    .shadow-md { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
+    .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); }
+    
+    .opacity-0 { opacity: 0; }
+    .opacity-80 { opacity: 0.8; }
+    .opacity-100 { opacity: 1; }
+    
+    /* Gradients */
+    .gradient-background {
+      background: linear-gradient(to bottom right, #172554, #1e40af);
+      color: white;
+    }
+    
+    .bg-gradient-to-r {
+      background-image: linear-gradient(to right, var(--tw-gradient-stops));
+    }
+    
+    .from-blue-800 {
+      --tw-gradient-stops: #1e40af, var(--tw-gradient-to, rgba(30, 64, 175, 0));
+    }
+    
+    .to-orange-500 {
+      --tw-gradient-to: #f97316;
+    }
+    
+    /* Navigation dots */
+    .nav-dots {
+      position: fixed;
+      right: 1.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    
+    .nav-dot {
+      transition: all 0.3s;
+      width: 1rem;
+      height: 1rem;
+      border-radius: 50%;
+      border: 2px solid #1e40af;
+      background-color: #e5e7eb;
+    }
+    
+    .nav-dot:hover {
+      background-color: #f97316;
+    }
+    
+    .nav-dot.active {
+      transform: scale(1.5);
+      background-color: #f97316;
+    }
+    
+    .dot-tooltip {
+      position: absolute;
+      right: 2rem;
+      white-space: nowrap;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      background-color: #1e3a8a;
+      color: white;
+      font-size: 0.75rem;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    
+    .dot-container:hover .dot-tooltip {
+      opacity: 1;
+    }
+    
+    /* Progress bar */
+    .progress-container {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 0.625rem;
+      height: 100%;
+      background-color: #e5e7eb;
+      z-index: 50;
+    }
+    
+    .progress-bar {
+      height: 0;
+      width: 100%;
+      background: linear-gradient(to bottom, #f97316, #1e40af);
+      transition: height 0.3s;
+    }
+    
+    .progress-indicator {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 50;
+      background-color: #1e3a8a;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Slide frame effect */
+    .slide-frame {
+      position: relative;
+      background-color: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      padding: 2rem;
+      margin: 2rem;
+      overflow: hidden;
+    }
+    
+    .slide-frame::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, #1e40af, #f97316);
+    }
+    
+    /* Animation classes */
+    .slide-in {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .slide-in.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .fade-in-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .fade-in-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .fade-in-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .fade-in-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .pop-in {
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    
+    .pop-in.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+    
+    /* Animations */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(-25%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+      }
+      50% {
+        transform: translateY(0);
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
+      }
+    }
+    
+    .animate-bounce {
+      animation: bounce 1s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: .7;
+      }
+    }
+    
+    .animate-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    
+    /* Grid system */
+    .grid-cols-1 {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    
+    .grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    .grid-cols-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    
+    .grid-cols-6 {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+    
+    .gap-4 {
+      gap: 1rem;
+    }
+    
+    .gap-6 {
+      gap: 1.5rem;
+    }
+    
+    .gap-8 {
+      gap: 2rem;
+    }
+    
+    .gap-10 {
+      gap: 2.5rem;
+    }
+    
+    /* Interactive elements */
+    .spectrum-item {
+      transition: all 0.3s ease;
+    }
+    
+    .spectrum-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .timeline-dot {
+      transition: all 0.3s ease;
+    }
+    
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.5);
+      background-color: #f97316;
+    }
+    
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .grid-item {
+      transition: all 0.3s ease;
+    }
+    
+    .grid-item:hover {
+      background-color: #fff7ed;
+    }
+    
+    /* Helper classes */
+    .transform {
+      transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    }
+    
+    .-translate-x-1\/2 {
+      --tw-translate-x: -50%;
+    }
+    
+    .-translate-y-1\/2 {
+      --tw-translate-y: -50%;
+    }
+    
+    .translate-x-1\/2 {
+      --tw-translate-x: 50%;
+    }
+    
+    .z-0 {
+      z-index: 0;
+    }
+    
+    .z-10 {
+      z-index: 10;
+    }
+    
+    .z-50 {
+      z-index: 50;
+    }
+    
+    .inset-0 {
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+    }
+    
+    .inset-4 {
+      top: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      left: 1rem;
+    }
+    
+    .inset-8 {
+      top: 2rem;
+      right: 2rem;
+      bottom: 2rem;
+      left: 2rem;
+    }
+    
+    .bottom-4 {
+      bottom: 1rem;
+    }
+    
+    .bottom-8 {
+      bottom: 2rem;
+    }
+    
+    .right-4 {
+      right: 1rem;
+    }
+    
+    .right-6 {
+      right: 1.5rem;
+    }
+    
+    .left-1\/2 {
+      left: 50%;
+    }
+    
+    .top-0 {
+      top: 0;
+    }
+    
+    .right-0 {
+      right: 0;
+    }
+    
+    .whitespace-nowrap {
+      white-space: nowrap;
+    }
+    
+    .backdrop-blur-sm {
+      backdrop-filter: blur(4px);
+    }
+    
+    .bg-opacity-10 {
+      --bg-opacity: 0.1;
+      background-color: rgba(255, 255, 255, var(--bg-opacity));
+    }
+    
+    .bg-opacity-20 {
+      --bg-opacity: 0.2;
+      background-color: rgba(255, 255, 255, var(--bg-opacity));
+    }
+    
+    .border-2 {
+      border-width: 2px;
+    }
+    
+    .overflow-x-auto {
+      overflow-x: auto;
+    }
+    
+    .text-center {
+      text-align: center;
+    }
+    
+    .w-3 {
+      width: 0.75rem;
+    }
+    
+    .w-4 {
+      width: 1rem;
+    }
+    
+    .w-6 {
+      width: 1.5rem;
+    }
+    
+    .w-12 {
+      width: 3rem;
+    }
+    
+    .w-16 {
+      width: 4rem;
+    }
+    
+    .w-64 {
+      width: 16rem;
+    }
+    
+    .h-3 {
+      height: 0.75rem;
+    }
+    
+    .h-4 {
+      height: 1rem;
+    }
+    
+    .h-6 {
+      height: 1.5rem;
+    }
+    
+    .h-12 {
+      height: 3rem;
+    }
+    
+    .h-16 {
+      height: 4rem;
+    }
+    
+    .h-64 {
+      height: 16rem;
+    }
+    
+    .max-w-3xl {
+      max-width: 48rem;
+    }
+    
+    .flex-shrink-0 {
+      flex-shrink: 0;
+    }
+    
+    .transition-all {
+      transition-property: all;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    
+    .transition-opacity {
+      transition-property: opacity;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+      transition-duration: 150ms;
+    }
+    
+    .duration-200 {
+      transition-duration: 200ms;
+    }
+    
+    .duration-300 {
+      transition-duration: 300ms;
+    }
+    
+    /* Media queries */
+    @media (min-width: 640px) {
+      .sm\:block {
+        display: block;
+      }
+      
+      .sm\:hidden {
+        display: none;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .md\:flex {
+        display: flex;
+      }
+      
+      .md\:hidden {
+        display: none;
+      }
+      
+      .md\:w-1\/2 {
+        width: 50%;
+      }
+      
+      .md\:w-80 {
+        width: 20rem;
+      }
+      
+      .md\:h-80 {
+        height: 20rem;
+      }
+      
+      .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      
+      .md\:grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+      
+      .md\:grid-cols-6 {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+      
+      .md\:flex-row {
+        flex-direction: row;
+      }
+      
+      .md\:px-8 {
+        padding-left: 2rem;
+        padding-right: 2rem;
+      }
+      
+      .md\:px-12 {
+        padding-left: 3rem;
+        padding-right: 3rem;
+      }
+      
+      .md\:text-right {
+        text-align: right;
+      }
+      
+      .md\:text-4xl {
+        font-size: 2.25rem;
+      }
+      
+      .md\:text-6xl {
+        font-size: 3.75rem;
+      }
+      
+      .md\:text-2xl {
+        font-size: 1.5rem;
+      }
+      
+      .md\:mb-0 {
+        margin-bottom: 0;
+      }
+      
+      .md\:block {
+        display: block;
+      }
+      
+      .md\:pr-12 {
+        padding-right: 3rem;
+      }
+      
+      .md\:pl-12 {
+        padding-left: 3rem;
+      }
+      
+      .md\:order-1 {
+        order: 1;
+      }
+      
+      .md\:order-2 {
+        order: 2;
+      }
+    }
+    
+    /* Mobile specific styles */
+    @media (max-width: 640px) {
+      .mobile-scroll {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        display: flex;
+      }
+      
+      .mobile-scroll > div {
+        min-width: 85%;
+        scroll-snap-align: center;
+        margin-right: 1rem;
+      }
+      
+      .nav-dots {
+        display: none;
+      }
+      
+      .progress-container {
+        width: 0.3125rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Progress bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="progress-indicator" id="progressIndicator">0%</div>
+
+  <!-- Navigation dots -->
+  <div class="nav-dots" id="navDots"></div>
+
+  <!-- Section 1: Introduction -->
+  <section id="intro" class="gradient-background text-white">
+    <div class="container relative">
+      <div class="pop-in">
+        <h1 class="text-4xl md:text-6xl font-bold mb-6">Understanding AI Agents</h1>
+        <p class="text-xl md:text-2xl mb-12 max-w-3xl">What problems are we solving? A non-technical presentation</p>
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="w-full md:w-1/2 mb-6 md:mb-0">
+            <div style="background: rgba(255, 255, 255, 0.1); border-radius: 0.5rem; padding: 1.5rem;">
+              <p class="text-lg mb-4">In this presentation we'll explore:</p>
+              <ul style="margin-top: 0.75rem;">
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">●</span>
+                  <span>The confusion around AI terminology</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">●</span>
+                  <span>The spectrum of AI technologies</span>
+                </li>
+                <li style="display: flex; align-items: center; margin-bottom: 0.75rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">●</span>
+                  <span>The evolution toward AI agents</span>
+                </li>
+                <li style="display: flex; align-items: center;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">●</span>
+                  <span>Real-world use cases and solutions</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="w-full md:w-1/2 flex justify-center">
+            <div class="relative w-64 h-64 md:w-80 md:h-80">
+              <div style="position: absolute; inset: 0; background: rgba(255, 255, 255, 0.1); border-radius: 9999px; animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
+              <div style="position: absolute; inset: 1rem; background: rgba(255, 255, 255, 0.2); border-radius: 9999px;"></div>
+              <div style="position: absolute; inset: 2rem; background: rgba(255, 255, 255, 0.2); border-radius: 9999px; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 4rem; color: #fdba74;">🤖</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); animation: bounce 1s infinite;">
+        <a href="#ai-confusion" style="color: white; opacity: 0.8; display: flex; flex-direction: column; align-items: center;">
+          <span style="margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500;">Scroll Down</span>
+          <span style="font-size: 1.25rem;">↓</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: AI Terminology Confusion -->
+  <section id="ai-confusion" class="bg-gray-50">
+    <div class="container px-4 py-12 md:px-8 relative">
+      <div class="slide-frame">
+        <div class="slide-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6 text-blue-950">The Confusing World of AI Terminology</h2>
+          <p class="text-lg mb-8">Have you ever found yourself confused when people talk about different AI technologies? You're not alone!</p>
+          
+          <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; transition: all 0.3s ease;">
+              <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #1e40af; display: flex; align-items: center;">
+                <span style="margin-right: 0.75rem; color: #f97316;">💬</span>
+                AI Chatbots
+              </h3>
+              <p>Communication-focused AI that interacts through text or voice conversations.</p>
+              <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #4b5563; font-style: italic;">Example: ChatGPT, Customer Service Bots</p>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; transition: all 0.3s ease;">
+              <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #1e40af; display: flex; align-items: center;">
+                <span style="margin-right: 0.75rem; color: #f97316;">🤝</span>
+                AI Assistants
+              </h3>
+              <p>Helpers that provide information and perform simple tasks on command.</p>
+              <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #4b5563; font-style: italic;">Example: Siri, Alexa, Google Assistant</p>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; transition: all 0.3s ease;">
+              <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #1e40af; display: flex; align-items: center;">
+                <span style="margin-right: 0.75rem; color: #f97316;">👨‍🚀</span>
+                AI Copilots
+              </h3>
+              <p>Collaborative tools that work alongside humans to enhance productivity.</p>
+              <p style="margin-top: 0.5rem; font-size: 0.875rem; color: #4b5563; font-style: italic;">Example: GitHub Copilot, Microsoft 365 Copilot</p>
+            </div>
+          </div>
+          
+          <div style="background: #eff6ff; padding: 1.5rem; border-radius: 0.5rem; border-left: 4px solid #3b82f6; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #172554;">Key Insight</h3>
+            <p style="font-size: 1.125rem; margin-bottom: 1rem;">These aren't technical terms with precise definitions! They often describe:</p>
+            <ul>
+              <li style="display: flex; align-items: flex-start; margin-bottom: 0.75rem;">
+                <span style="color: #f97316; margin-right: 0.75rem; margin-top: 0.25rem;">→</span>
+                <span><strong>Communication style</strong> (chatbot = conversation-based)</span>
+              </li>
+              <li style="display: flex; align-items: flex-start; margin-bottom: 0.75rem;">
+                <span style="color: #f97316; margin-right: 0.75rem; margin-top: 0.25rem;">→</span>
+                <span><strong>Relationship to humans</strong> (assistant vs. autonomous agent)</span>
+              </li>
+              <li style="display: flex; align-items: flex-start;">
+                <span style="color: #f97316; margin-right: 0.75rem; margin-top: 0.25rem;">→</span>
+                <span><strong>Level of independence</strong> (copilot vs. autonomous agent)</span>
+              </li>
+            </ul>
+            <p style="margin-top: 1rem; color: #1e40af; font-weight: 500;">Understanding the purpose and functionality matters more than the label!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: AI Technology Spectrum -->
+  <section id="ai-spectrum" class="bg-blue-50">
+    <div class="container px-4 py-12 md:px-8 relative">
+      <div class="slide-frame">
+        <div class="fade-in-right">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6 text-blue-950">The AI Technology Spectrum</h2>
+          <p class="text-lg mb-6">Rather than getting caught up in terminology, let's understand how AI technologies exist on a spectrum from simple to complex:</p>
+          
+          <div style="display: flex; flex-wrap: wrap; gap: 1rem; padding: 1rem 0;">
+            <div style="flex: 1; min-width: 200px; background: white; padding: 1.25rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div style="width: 4rem; height: 4rem; border-radius: 9999px; background: rgba(30, 64, 175, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.5rem; color: #1e40af;">💬</span>
+              </div>
+              <h3 style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.5rem;">Chatbots</h3>
+              <p style="font-size: 0.875rem;">Simple conversational interfaces focused on specific tasks</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px; background: white; padding: 1.25rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div style="width: 4rem; height: 4rem; border-radius: 9999px; background: rgba(30, 64, 175, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.5rem; color: #1e40af;">🔍</span>
+              </div>
+              <h3 style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.5rem;">AI Assistants</h3>
+              <p style="font-size: 0.875rem;">Helpful AI systems that respond to queries and commands</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 200px; background: white; padding: 1.25rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6; display: flex; flex-direction: column; align-items: center; text-align: center;">
+              <div style="width: 4rem; height: 4rem; border-radius: 9999px; background: rgba(30, 64, 175, 0.1); display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <span style="font-size: 1.5rem; color: #1e40af;">🤖</span>
+              </div>
+              <h3 style="font-weight: 600; font-size: 1.125rem; margin-bottom: 0.5rem;">AI Agents</h3>
+              <p style="font-size: 0.875rem;">Systems that can make decisions and take actions toward goals</p>
+            </div>
+          </div>
+          
+          <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; margin-top: 1rem;">
+            <div style="position: relative; width: 100%;">
+              <div style="height: 0.75rem; width: 100%; background-image: linear-gradient(to right, #1e40af, #f97316); border-radius: 9999px;"></div>
+              <div style="position: absolute; top: -0.5rem; left: 0; transform: translateX(-50%);">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background-color: #1e40af; border: 2px solid white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);"></div>
+                  <span style="font-size: 0.75rem; font-weight: 500; margin-top: 0.25rem;">Simple</span>
+                </div>
+              </div>
+              <div style="position: absolute; top: -0.5rem; right: 0; transform: translateX(50%);">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background-color: #f97316; border: 2px solid white; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);"></div>
+                  <span style="font-size: 0.75rem; font-weight: 500; margin-top: 0.25rem;">Complex</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 2rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6;">
+              <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #1e40af;">Real-World Example</h3>
+              <p style="margin-bottom: 1rem;">Consider a smart assistant like Amazon Alexa:</p>
+              <ul>
+                <li style="display: flex; align-items: flex-start; margin-bottom: 0.75rem;">
+                  <span style="color: #f97316; margin-right: 0.75rem; margin-top: 0.25rem;">→</span>
+                  <span>It's a <span style="font-weight: 600;">chatbot</span> when you have a conversation with it</span>
+                </li>
+                <li style="display: flex; align-items: flex-start; margin-bottom: 0.75rem;">
+                  <span style="color: #f97316; margin-right: 0.75rem; margin-top: 0.25rem;">→</span>
+                  <span>It's an <span style="font-weight: 600;">assistant</span> when it answers questions or gives recommendations</span>
+                </li>
+                <li style="display: flex; align-items: flex-start;">
+                  <span style="color: #f97316; margin-right: 0.75rem; margin-top: 0.25rem;">→</span>
+                  <span>It's an <span style="font-weight: 600;">agent</span> when it orders products or controls your smart home</span>
+                </li>
+              </ul>
+              <p style="margin-top: 1rem; color: #1e40af; font-style: italic;">The same technology can play different roles depending on the task and context!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Cognitive Architecture -->
+  <section id="cognitive-architecture" class="gradient-background text-white">
+    <div class="container px-4 py-12 md:px-8">
+      <div class="slide-in">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8">AI Tech: The Gradient of Cognitive Architecture</h2>
+        <p class="text-lg mb-10">As we move across the AI spectrum, systems gain more sophisticated "cognitive" abilities:</p>
+        
+        <div style="position: relative; max-width: 800px; margin: 0 auto;">
+          <div style="background: white; color: #172554; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background: white; border: 2px solid #1e40af; margin-right: 1rem;"></div>
+              <div>
+                <h3 style="font-weight: 700; margin-bottom: 0.5rem;">Basic Understanding</h3>
+                <p>Simple pattern recognition and predefined responses based on keywords.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: white; color: #172554; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background: white; border: 2px solid #1e40af; margin-right: 1rem;"></div>
+              <div>
+                <h3 style="font-weight: 700; margin-bottom: 0.5rem;">Contextual Understanding</h3>
+                <p>Can interpret meaning based on context, search for information, and generate relevant responses.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: white; color: #172554; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background: white; border: 2px solid #1e40af; margin-right: 1rem;"></div>
+              <div>
+                <h3 style="font-weight: 700; margin-bottom: 0.5rem;">Tool Use & Reasoning</h3>
+                <p>Can use external tools, follow reasoning steps, and retain information across interactions.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: white; color: #172554; border-radius: 0.5rem; padding: 1.5rem; margin-bottom: 1.5rem;">
+            <div style="display: flex; align-items: center;">
+              <div style="width: 1.5rem; height: 1.5rem; border-radius: 9999px; background: #f97316; border: 2px solid white; margin-right: 1rem;"></div>
+              <div>
+                <h3 style="font-weight: 700; margin-bottom: 0.5rem;">Goal-Directed Autonomy</h3>
+                <p>Can pursue multi-step goals independently, making decisions and adjusting based on outcomes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 3rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 0.5rem;">
+          <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">The Building Blocks Approach</h3>
+          <p style="margin-bottom: 1rem;">Think of these systems as constructed from the same fundamental building blocks, but with increasing sophistication and autonomy as you move up the spectrum.</p>
+          <p>Just as a smartphone is both a phone, a calculator, a camera, and more — modern AI systems increasingly combine multiple capabilities in one package.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Future Trends -->
+  <section id="future-trends" class="bg-white">
+    <div class="container px-4 py-12 md:px-8 relative">
+      <div class="slide-frame">
+        <div class="slide-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8 text-blue-950">Future Trends & Convergence</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem;">
+            <div>
+              <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #1e40af;">Where We're Headed</h3>
+              
+              <div style="display: flex; margin-bottom: 1.5rem; align-items: flex-start;">
+                <div style="flex-shrink: 0; width: 3rem; height: 3rem; border-radius: 9999px; background: rgba(249, 115, 22, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                  <span style="font-size: 1.5rem; color: #f97316;">🤖</span>
+                </div>
+                <div>
+                  <h4 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 0.25rem;">Increasing Autonomy</h4>
+                  <p>All AI technologies are moving toward greater independence and decision-making abilities.</p>
+                </div>
+              </div>
+              
+              <div style="display: flex; margin-bottom: 1.5rem; align-items: flex-start;">
+                <div style="flex-shrink: 0; width: 3rem; height: 3rem; border-radius: 9999px; background: rgba(249, 115, 22, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                  <span style="font-size: 1.5rem; color: #f97316;">🧩</span>
+                </div>
+                <div>
+                  <h4 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 0.25rem;">Blurring Boundaries</h4>
+                  <p>The lines between assistants, copilots, and agents are becoming increasingly indistinct.</p>
+                </div>
+              </div>
+              
+              <div style="display: flex; align-items: flex-start;">
+                <div style="flex-shrink: 0; width: 3rem; height: 3rem; border-radius: 9999px; background: rgba(249, 115, 22, 0.2); display: flex; align-items: center; justify-content: center; margin-right: 1rem;">
+                  <span style="font-size: 1.5rem; color: #f97316;">🧠</span>
+                </div>
+                <div>
+                  <h4 style="font-size: 1.125rem; font-weight: 500; margin-bottom: 0.25rem;">Improved Reasoning</h4>
+                  <p>Advanced techniques will enable more sophisticated reasoning and problem-solving abilities.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="background: #eff6ff; padding: 1.5rem; border-radius: 0.5rem; border: 1px solid #dbeafe;">
+            <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem; color: #1e40af;">Key Enablers for Enterprise Adoption</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+              <div>
+                <p style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <span style="color: #f97316; margin-right: 0.5rem;">✓</span>
+                  <span>Robust security and identity management</span>
+                </p>
+                <p style="display: flex; align-items: flex-start;">
+                  <span style="color: #f97316; margin-right: 0.5rem;">✓</span>
+                  <span>Governance frameworks for responsible AI</span>
+                </p>
+              </div>
+              <div>
+                <p style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <span style="color: #f97316; margin-right: 0.5rem;">✓</span>
+                  <span>Integration with existing enterprise systems</span>
+                </p>
+                <p style="display: flex; align-items: flex-start;">
+                  <span style="color: #f97316; margin-right: 0.5rem;">✓</span>
+                  <span>Measurement and performance monitoring</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Use Cases -->
+  <section id="use-cases" class="bg-gray-50">
+    <div class="container px-4 py-12 md:px-8 relative">
+      <div class="slide-frame">
+        <div class="fade-in-left">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6 text-blue-950">AI Use Cases & Problem Solving</h2>
+          <p class="text-lg mb-8">Let's explore some real-world applications where AI agents can provide significant value:</p>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
+            <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6;">
+              <div style="display: flex; align-items: flex-start;">
+                <div style="width: 4rem; height: 4rem; border-radius: 9999px; background: rgba(30, 64, 175, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                  <span style="font-size: 1.5rem; color: #1e40af;">🔍</span>
+                </div>
+                <div>
+                  <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #1e40af;">Navigate: Search & Retrieval</h3>
+                  <p style="margin-bottom: 0.75rem;">AI agents that can efficiently search through vast amounts of data to find exactly what you need.</p>
+                  <div style="background: #eff6ff; padding: 0.75rem; border-radius: 0.25rem;">
+                    <p style="font-size: 0.875rem;"><strong>Example:</strong> An agent that searches through company documents, combining different sources to answer specific business questions.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div style="background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); border: 1px solid #f3f4f6;">
+              <div style="display: flex; align-items: flex-start;">
+                <div style="width: 4rem; height: 4rem; border-radius: 9999px; background: rgba(30, 64, 175, 0.1); display: flex; align-items: center; justify-content: center; margin-right: 1rem; flex-shrink: 0;">
+                  <span style="font-size: 1.5rem; color: #1e40af;">🔒</span>
+                </div>
+                <div>
+                  <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; color: #1e40af;">Data Access Control</h3>
+                  <p style="margin-bottom: 0.75rem;">Systems that manage who has access to what information, ensuring security while enabling productivity.</p>
+                  <div style="background: #eff6ff; padding: 0.75rem; border-radius: 0.25rem;">
+                    <p style="font-size: 0.875rem;"><strong>Example:</strong> An agent that ensures third-party AI systems only access the data they're authorized to use.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Roadmap -->
+  <section id="roadmap" class="gradient-background text-white">
+    <div class="container px-4 py-12 md:px-8">
+      <div class="slide-in">
+        <h2 class="text-3xl md:text-4xl font-bold mb-8">Future Roadmap: Agent Evolution</h2>
+        <p class="text-lg mb-10">The journey toward more sophisticated AI agent systems will involve several evolutionary steps:</p>
+        
+        <div style="position: relative; margin-bottom: 3rem;">
+          <div style="display: flex; flex-direction: column; gap: 2rem;">
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 0.5rem;">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center;">
+                <span style="width: 2rem; height: 2rem; border-radius: 9999px; background: #f97316; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: white; font-weight: 700;">1</span>
+                Agent Identity Security
+              </h3>
+              <p style="margin-bottom: 1rem;">Establishing robust identity frameworks for AI agents, similar to how we manage human and machine identities.</p>
+              <ul>
+                <li style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">✓</span>
+                  <span>Agent IDs and authentication</span>
+                </li>
+                <li style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">✓</span>
+                  <span>Access control and permissions</span>
+                </li>
+                <li style="display: flex; align-items: flex-start;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">✓</span>
+                  <span>Audit and tracking capabilities</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div style="background: rgba(255, 255, 255, 0.1); padding: 1.5rem; border-radius: 0.5rem;">
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 1rem; display: flex; align-items: center;">
+                <span style="width: 2rem; height: 2rem; border-radius: 9999px; background: #f97316; display: flex; align-items: center; justify-content: center; margin-right: 0.75rem; color: white; font-weight: 700;">2</span>
+                Agent Networking
+              </h3>
+              <p style="margin-bottom: 1rem;">Enabling secure and effective communication between multiple AI agents working collaboratively.</p>
+              <ul>
+                <li style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">✓</span>
+                  <span>Agent-to-agent networks</span>
+                </li>
+                <li style="display: flex; align-items: flex-start; margin-bottom: 0.5rem;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">✓</span>
+                  <span>E2E identity graphs</span>
+                </li>
+                <li style="display: flex; align-items: flex-start;">
+                  <span style="color: #fdba74; margin-right: 0.75rem;">✓</span>
+                  <span>Security agent integration</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: Conclusion -->
+  <section id="conclusion" class="bg-white">
+    <div class="container px-4 py-12 md:px-8 relative">
+      <div class="slide-frame">
+        <div class="pop-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8 text-blue-950">Key Takeaways</h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3rem;">
+            <div>
+              <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; color: #1e40af;">Understanding AI Technologies</h3>
+              
+              <div style="margin-bottom: 1rem; background: #eff6ff; padding: 1rem; border-radius: 0.5rem;">
+                <div style="display: flex; align-items: flex-start;">
+                  <div style="flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 9999px; background: #1e40af; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: white; font-weight: 700;">
+                    1
+                  </div>
+                  <div>
+                    <p style="font-weight: 500;">AI systems exist on a spectrum with increasing capabilities and autonomy</p>
+                    <p style="font-size: 0.875rem; color: #4b5563; margin-top: 0.25rem;">The terms used often describe how we interact with them, not technical definitions</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 1rem; background: #eff6ff; padding: 1rem; border-radius: 0.5rem;">
+                <div style="display: flex; align-items: flex-start;">
+                  <div style="flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 9999px; background: #1e40af; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: white; font-weight: 700;">
+                    2
+                  </div>
+                  <div>
+                    <p style="font-weight: 500;">Focus on capabilities and purpose, not terminology</p>
+                    <p style="font-size: 0.875rem; color: #4b5563; margin-top: 0.25rem;">Understanding what a system can do is more important than what it's called</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div style="background: #eff6ff; padding: 1rem; border-radius: 0.5rem;">
+                <div style="display: flex; align-items: flex-start;">
+                  <div style="flex-shrink: 0; width: 2rem; height: 2rem; border-radius: 9999px; background: #1e40af; display: flex; align-items: center; justify-content: center; margin-right: 1rem; color: white; font-weight: 700;">
+                    3
+                  </div>
+                  <div>
+                    <p style="font-weight: 500;">AI technologies are converging and boundaries are blurring</p>
+                    <p style="font-size: 0.875rem; color: #4b5563; margin-top: 0.25rem;">The same system can act as a chatbot, assistant, or agent depending on the context</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div style="text-align: center;">
+            <h3 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; color: #1e40af;">Thank You!</h3>
+            <p style="font-size: 1.125rem; margin-bottom: 1rem;">Questions? Thoughts? Ideas?</p>
+            <div style="display: inline-block; background-image: linear-gradient(to right, #1e40af, #f97316); padding: 1px; border-radius: 9999px;">
+              <button style="padding: 0.75rem 1.5rem; background: white; border-radius: 9999px; font-weight: 500; cursor: pointer; border: none; transition: background-color 0.3s;">
+                Contact Us To Learn More
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Element references
+      const progressBar = document.getElementById('progressBar');
+      const progressIndicator = document.getElementById('progressIndicator');
+      const navDots = document.getElementById('navDots');
+      const sections = document.querySelectorAll('section');
+      const animatedElements = document.querySelectorAll('.slide-in, .fade-in-right, .fade-in-left, .pop-in');
+      
+      // Section titles for navigation
+      const sectionTitles = {
+        'intro': 'Introduction',
+        'ai-confusion': 'AI Terminology',
+        'ai-spectrum': 'AI Technology Spectrum',
+        'cognitive-architecture': 'Cognitive Architecture',
+        'future-trends': 'Future Trends',
+        'use-cases': 'Use Cases',
+        'roadmap': 'Roadmap',
+        'conclusion': 'Conclusion'
+      };
+      
+      // Create navigation dots
+      sections.forEach(section => {
+        const sectionId = section.id;
+        const dotContainer = document.createElement('div');
+        dotContainer.className = 'dot-container group relative flex items-center';
+        
+        const tooltip = document.createElement('span');
+        tooltip.className = 'dot-tooltip';
+        tooltip.textContent = sectionTitles[sectionId] || sectionId;
+        
+        const dot = document.createElement('a');
+        dot.href = `#${sectionId}`;
+        dot.className = 'nav-dot';
+        dot.setAttribute('aria-label', `Navigate to ${sectionTitles[sectionId] || sectionId} section`);
+        
+        dotContainer.appendChild(tooltip);
+        dotContainer.appendChild(dot);
+        navDots.appendChild(dotContainer);
+      });
+      
+      // Update progress and active section
+      function updateProgress() {
+        const scrollPosition = window.scrollY;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.body.scrollHeight - windowHeight;
+        const scrollPercentage = (scrollPosition / documentHeight) * 100;
+        
+        progressBar.style.height = `${scrollPercentage}%`;
+        progressIndicator.textContent = `${Math.min(Math.round(scrollPercentage), 100)}%`;
+        
+        // Update active section for navigation dots
+        let activeSection = null;
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+          
+          if (scrollPosition >= sectionTop - windowHeight/2 && 
+              scrollPosition < sectionTop + sectionHeight - windowHeight/2) {
+            activeSection = section.id;
+          }
+        });
+        
+        if (activeSection) {
+          document.querySelectorAll('.nav-dot').forEach(dot => {
+            dot.classList.remove('active');
+          });
+          
+          const activeDot = document.querySelector(`.nav-dot[href="#${activeSection}"]`);
+          if (activeDot) {
+            activeDot.classList.add('active');
+          }
+        }
+      }
+      
+      // Animation observer
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+      
+      animatedElements.forEach(el => {
+        observer.observe(el);
+      });
+      
+      // Event listeners
+      window.addEventListener('scroll', updateProgress);
+      window.addEventListener('resize', updateProgress);
+      
+      // Initial call
+      updateProgress();
+      
+      // Make all initially visible elements active
+      document.querySelectorAll('.pop-in, .slide-in, .fade-in-right, .fade-in-left').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight) {
+          el.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

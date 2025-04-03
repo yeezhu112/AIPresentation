@@ -534,11 +534,13 @@
     }
     
     .bg-opacity-10 {
-      background-opacity: 0.1;
+      --tw-bg-opacity: 0.1;
+      background-color: rgba(var(--tw-bg-opacity-color, 255, 255, 255), 0.1);
     }
     
     .bg-opacity-20 {
-      background-opacity: 0.2;
+      --tw-bg-opacity: 0.2;
+      background-color: rgba(var(--tw-bg-opacity-color, 255, 255, 255), 0.2);
     }
     
     .border-2 {
@@ -764,13 +766,13 @@
 
   <!-- Section 1: Introduction -->
   <section id="intro" class="gradient-background text-white">
-    <div class="container relative">
+    <div class="container relative px-6 py-16 md:px-12">
       <div class="pop-in">
         <h1 class="text-4xl md:text-6xl font-bold mb-6">Understanding AI Agents</h1>
         <p class="text-xl md:text-2xl mb-12 max-w-3xl">What problems are we solving? A non-technical presentation</p>
         <div class="flex flex-col md:flex-row items-center">
           <div class="w-full md:w-1/2 mb-6 md:mb-0">
-            <div class="bg-white bg-opacity-10 rounded-lg p-6 backdrop-blur-sm">
+            <div style="background-color: rgba(255, 255, 255, 0.1);" class="rounded-lg p-6">
               <p class="text-lg mb-4">In this presentation we'll explore:</p>
               <ul class="space-y-3">
                 <li class="flex items-center">
@@ -794,9 +796,9 @@
           </div>
           <div class="w-full md:w-1/2 flex justify-center">
             <div class="relative w-64 h-64 md:w-80 md:h-80">
-              <div class="absolute inset-0 bg-white bg-opacity-10 rounded-full animate-pulse"></div>
-              <div class="absolute inset-4 bg-white bg-opacity-20 rounded-full"></div>
-              <div class="absolute inset-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+              <div class="absolute inset-0 rounded-full animate-pulse" style="background-color: rgba(255, 255, 255, 0.1);"></div>
+              <div class="absolute inset-4 rounded-full" style="background-color: rgba(255, 255, 255, 0.2);"></div>
+              <div class="absolute inset-8 rounded-full flex items-center justify-center" style="background-color: rgba(255, 255, 255, 0.2);">
                 <i class="fas fa-robot text-6xl text-orange-300"></i>
               </div>
             </div>
@@ -911,7 +913,7 @@
           <div class="overflow-x-auto py-4">
             <div class="mobile-scroll md:grid md:grid-cols-6 gap-4 mb-8">
               <div class="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
-                <div class="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mb-4" style="background-color: rgba(30, 64, 175, 0.1);">
                   <i class="fas fa-comment-dots text-2xl text-blue-800"></i>
                 </div>
                 <h3 class="font-semibold text-lg mb-2">Chatbots</h3>
@@ -919,7 +921,7 @@
               </div>
               
               <div class="spectrum-item bg-white p-5 rounded-lg shadow-md flex flex-col items-center text-center border border-gray-100">
-                <div class="w-16 h-16 rounded-full bg-blue-800 bg-opacity-10 flex items-center justify-center mb-4">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mb-4" style="background-color: rgba(30, 64, 175, 0.1);">
                   <i class="fas fa-database text-2xl text-blue-800"></i>
                 </div>
                 <h3 class="font-semibold text-lg mb-2">Knowledge Base</h3>
@@ -1029,78 +1031,80 @@
   <!-- Section 4: Cognitive Architecture -->
   <section id="cognitive-architecture" class="gradient-background text-white">
     <div class="container px-4 py-12 md:px-8">
-      <div class="slide-in">
-        <h2 class="text-3xl md:text-4xl font-bold mb-8">AI Tech: The Gradient of Cognitive Architecture</h2>
-        <p class="text-lg mb-10">As we move across the AI spectrum, systems gain more sophisticated "cognitive" abilities:</p>
-        
-        <div class="relative">
-          <!-- Vertical Timeline -->
-          <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-white bg-opacity-30 transform -translate-x-1/2 z-0"></div>
+      <div class="slide-frame" style="background-color: rgba(0, 0, 0, 0.2); border: none;">
+        <div class="slide-in">
+          <h2 class="text-3xl md:text-4xl font-bold mb-8">AI Tech: The Gradient of Cognitive Architecture</h2>
+          <p class="text-lg mb-10">As we move across the AI spectrum, systems gain more sophisticated "cognitive" abilities:</p>
           
-          <!-- Timeline Items -->
-          <div class="space-y-16 relative z-10">
-            <!-- Item 1 -->
-            <div class="timeline-item md:flex items-center">
-              <div class="md:w-1/2 mb-6 md:mb-0 md:pr-12 md:text-right">
-                <h3 class="text-xl font-bold mb-2 text-orange-300">Basic Understanding</h3>
-                <p>Simple pattern recognition and predefined responses based on keywords.</p>
-              </div>
-              <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
-              <div class="md:w-1/2 md:pl-12">
-                <div class="bg-white bg-opacity-10 p-4 rounded-lg">
-                  <p class="text-sm"><strong>Example:</strong> Basic customer service chatbot that responds to predefined queries like "What are your hours?" with templated answers.</p>
-                </div>
-              </div>
-            </div>
+          <div class="relative">
+            <!-- Vertical Timeline -->
+            <div class="hidden md:block absolute left-1/2 top-0 bottom-0 w-1 bg-white opacity-30 transform -translate-x-1/2 z-0"></div>
             
-            <!-- Item 2 -->
-            <div class="timeline-item md:flex items-center">
-              <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
-                <div class="bg-white bg-opacity-10 p-4 rounded-lg">
-                  <p class="text-sm"><strong>Example:</strong> Google Search that understands your question, finds relevant information, and presents it in context.</p>
+            <!-- Timeline Items -->
+            <div class="space-y-16 relative z-10">
+              <!-- Item 1 -->
+              <div class="timeline-item md:flex items-center">
+                <div class="md:w-1/2 mb-6 md:mb-0 md:pr-12 md:text-right">
+                  <h3 class="text-xl font-bold mb-2 text-orange-300">Basic Understanding</h3>
+                  <p>Simple pattern recognition and predefined responses based on keywords.</p>
+                </div>
+                <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
+                <div class="md:w-1/2 md:pl-12">
+                  <div style="background-color: rgba(255, 255, 255, 0.1);" class="p-4 rounded-lg">
+                    <p class="text-sm"><strong>Example:</strong> Basic customer service chatbot that responds to predefined queries like "What are your hours?" with templated answers.</p>
+                  </div>
                 </div>
               </div>
-              <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
-              <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 order-1 md:order-2">
-                <h3 class="text-xl font-bold mb-2 text-orange-300">Contextual Understanding</h3>
-                <p>Can interpret meaning based on context, search for information, and generate relevant responses.</p>
-              </div>
-            </div>
-            
-            <!-- Item 3 -->
-            <div class="timeline-item md:flex items-center">
-              <div class="md:w-1/2 mb-6 md:mb-0 md:pr-12 md:text-right">
-                <h3 class="text-xl font-bold mb-2 text-orange-300">Tool Use & Reasoning</h3>
-                <p>Can use external tools, follow reasoning steps, and retain information across interactions.</p>
-              </div>
-              <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
-              <div class="md:w-1/2 md:pl-12">
-                <div class="bg-white bg-opacity-10 p-4 rounded-lg">
-                  <p class="text-sm"><strong>Example:</strong> Microsoft Copilot that accesses your calendars, emails, and documents to help draft a comprehensive project update.</p>
+              
+              <!-- Item 2 -->
+              <div class="timeline-item md:flex items-center">
+                <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
+                  <div style="background-color: rgba(255, 255, 255, 0.1);" class="p-4 rounded-lg">
+                    <p class="text-sm"><strong>Example:</strong> Google Search that understands your question, finds relevant information, and presents it in context.</p>
+                  </div>
+                </div>
+                <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
+                <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 order-1 md:order-2">
+                  <h3 class="text-xl font-bold mb-2 text-orange-300">Contextual Understanding</h3>
+                  <p>Can interpret meaning based on context, search for information, and generate relevant responses.</p>
                 </div>
               </div>
-            </div>
-            
-            <!-- Item 4 -->
-            <div class="timeline-item md:flex items-center">
-              <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
-                <div class="bg-white bg-opacity-10 p-4 rounded-lg">
-                  <p class="text-sm"><strong>Example:</strong> An AI agent that, when given the goal "Plan my anniversary dinner," can search restaurants, check reviews, make a reservation, and add it to your calendar.</p>
+              
+              <!-- Item 3 -->
+              <div class="timeline-item md:flex items-center">
+                <div class="md:w-1/2 mb-6 md:mb-0 md:pr-12 md:text-right">
+                  <h3 class="text-xl font-bold mb-2 text-orange-300">Tool Use & Reasoning</h3>
+                  <p>Can use external tools, follow reasoning steps, and retain information across interactions.</p>
+                </div>
+                <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
+                <div class="md:w-1/2 md:pl-12">
+                  <div style="background-color: rgba(255, 255, 255, 0.1);" class="p-4 rounded-lg">
+                    <p class="text-sm"><strong>Example:</strong> Microsoft Copilot that accesses your calendars, emails, and documents to help draft a comprehensive project update.</p>
+                  </div>
                 </div>
               </div>
-              <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
-              <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 order-1 md:order-2">
-                <h3 class="text-xl font-bold mb-2 text-orange-300">Goal-Directed Autonomy</h3>
-                <p>Can pursue multi-step goals independently, making decisions and adjusting based on outcomes.</p>
+              
+              <!-- Item 4 -->
+              <div class="timeline-item md:flex items-center">
+                <div class="md:w-1/2 md:pr-12 md:text-right order-2 md:order-1">
+                  <div style="background-color: rgba(255, 255, 255, 0.1);" class="p-4 rounded-lg">
+                    <p class="text-sm"><strong>Example:</strong> An AI agent that, when given the goal "Plan my anniversary dinner," can search restaurants, check reviews, make a reservation, and add it to your calendar.</p>
+                  </div>
+                </div>
+                <div class="timeline-dot hidden md:block absolute left-1/2 w-6 h-6 rounded-full bg-white transform -translate-x-1/2"></div>
+                <div class="md:w-1/2 md:pl-12 mb-6 md:mb-0 order-1 md:order-2">
+                  <h3 class="text-xl font-bold mb-2 text-orange-300">Goal-Directed Autonomy</h3>
+                  <p>Can pursue multi-step goals independently, making decisions and adjusting based on outcomes.</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="mt-12 p-6 bg-white bg-opacity-10 rounded-lg">
-          <h3 class="text-xl font-semibold mb-4">The Building Blocks Approach</h3>
-          <p class="mb-4">Think of these systems as constructed from the same fundamental building blocks, but with increasing sophistication and autonomy as you move up the spectrum.</p>
-          <p>Just as a smartphone is both a phone, a calculator, a camera, and more — modern AI systems increasingly combine multiple capabilities in one package.</p>
+          <div class="mt-12 p-6" style="background-color: rgba(255, 255, 255, 0.1); border-radius: 0.5rem;">
+            <h3 class="text-xl font-semibold mb-4">The Building Blocks Approach</h3>
+            <p class="mb-4">Think of these systems as constructed from the same fundamental building blocks, but with increasing sophistication and autonomy as you move up the spectrum.</p>
+            <p>Just as a smartphone is both a phone, a calculator, a camera, and more — modern AI systems increasingly combine multiple capabilities in one package.</p>
+          </div>
         </div>
       </div>
     </div>
