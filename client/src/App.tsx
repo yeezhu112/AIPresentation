@@ -8,7 +8,7 @@ import Presentation from "@/pages/Presentation";
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Presentation} />
+      <Route path="/public/" component={Presentation} />
       <Route component={NotFound} />
     </Switch>
   );
