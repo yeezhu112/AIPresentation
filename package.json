@@ -2,7 +2,7 @@
   "name": "rest-express",
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://yz968.github.io/aipresentation",
+  "homepage": "https://aasggroup.github.io/aipresentation",
   "license": "MIT",
   "scripts": {
     "dev": "tsx server/index.ts",
