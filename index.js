@@ -31,6 +31,8 @@ var vite_config_default = defineConfig({
       )
     ] : []
   ],
+  base: "/aipresentation/",
+  // Must match your repository name
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
